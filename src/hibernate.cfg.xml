@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/society</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.format_sql">true</property>
+    <!--<mapping resource="com/housestack/model/hibernate.hbm.xml"/>-->
+    <mapping class="com.housestack.model.Society" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Building" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Room" file="" jar="" package="com.housestack.model" resource=""/>
+    <mapping class="com.housestack.model.Option" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Person" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Parking" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Member" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Vehicle" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.ParkingAssign" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Committee" package="com.housestack.model"/>
+  </session-factory>
+</hibernate-configuration>

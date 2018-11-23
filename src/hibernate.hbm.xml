@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.housestack.model.Society" table="tblsociety">
+      <id name="society_id" column="id">
+          <generator class="increment"/>
+      </id>
+      <property name="society_name" column="name"></property>
+      <property name="area" column="area"></property>
+      <property name="state" column="state"></property>
+      <property name="city" column="city"></property>
+      <property name="country" column="country"></property>
+      <property name="zip_Code" column="zipCode"></property>
+      <property name="type" column="type"></property>
+      <property name="cont_number" column="cnumber"></property>
+      <property name="creation_year" column="create_year"></property>
+      <property name="builder" column="builder"></property>
+      <property name="founder" column="founder"></property>
+      <property name="regi_number" column="regi_num"></property>
+      <property name="visibility" column="visibility"></property>
+  </class>
+</hibernate-mapping>

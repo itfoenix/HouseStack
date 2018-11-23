@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@../resource/MyStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.housestack.society.BuildingWindowController">
+   <children>
+      <VBox>
+         <children>
+            <HBox maxHeight="50.0" styleClass="headers" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Building Form" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Times New Roman" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox spacing="4.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" top="4.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_BuildingName" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Building Name" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_BuildingNumber" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Building Number" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_Floors" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="No. of Floors" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_Rooms" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="No. of Rooms" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" top="8.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="8.0" />
+                     </padding>
+                  </HBox>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXComboBox fx:id="cb_Society" maxWidth="320.0" prefWidth="155.0" promptText="Select Society" HBox.hgrow="ALWAYS" />
+                        <JFXButton fx:id="btn_save" maxWidth="70.0" minWidth="70.0" onAction="#save_action" onKeyPressed="#save_key" ripplerFill="#2bc63b" style="-fx-background-color: #17A05D;" text="Save" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </JFXButton>
+                        <Region maxWidth="350.0" prefWidth="350.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" top="8.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_search" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Search" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" top="8.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <JFXTreeTableView fx:id="tblBuilding" minWidth="-Infinity" prefHeight="100.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="24.0" right="24.0" top="4.0" />
+                     </VBox.margin>
+                  </JFXTreeTableView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

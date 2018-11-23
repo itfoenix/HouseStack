@@ -1,0 +1,20 @@
+.headers{
+    -fx-background-color: linear-gradient(to right,#239586, #4FDD42);
+}
+.jfx-combo-box {
+    -fx-font-size: 15px;
+}
+.tree-table-column {
+    -fx-text-alignment: center;
+}
+.tree-table-view .tree-table-cell{
+    -fx-border-width : 0 1 0 1;
+    -fx-alignment: CENTER;
+}
+.btn-save {
+    -fx-background-color: #53CB85;
+    -fx-text-fill: #FDFDFD;
+}
+.btn-cancel {
+    -fx-background-color: #DDE6E3;
+}
