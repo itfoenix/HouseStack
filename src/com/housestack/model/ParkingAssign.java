@@ -5,6 +5,7 @@
  */
 package com.housestack.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "tblparking_assign")
 @DynamicUpdate
-public class ParkingAssign {
+public class ParkingAssign extends RecursiveTreeObject<ParkingAssign> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

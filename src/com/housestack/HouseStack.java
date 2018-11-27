@@ -19,7 +19,7 @@ public class HouseStack extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/housestack/society/SocietyWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/housestack/member/MemberWindow.fxml"));
 
         Scene scene = new Scene(root);
 

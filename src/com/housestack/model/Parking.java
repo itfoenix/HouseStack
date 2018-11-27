@@ -5,6 +5,7 @@
  */
 package com.housestack.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "tblparking")
 @DynamicUpdate
-public class Parking {
+public class Parking extends RecursiveTreeObject<Parking> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,6 +94,33 @@ public class Parking {
 
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
+    }
+
+    @Override
+    public String toString() {
+        return slot_Name;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Parking other = (Parking) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 
 }

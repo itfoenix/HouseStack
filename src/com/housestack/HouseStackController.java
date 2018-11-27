@@ -188,21 +188,21 @@ public class HouseStackController implements Initializable {
         oh.insertOption(op17);
 
 //         Society Details
-        Society so = new Society();
-        so.setSociety_name("Hidden Leaf Village");
-        so.setArea("Sakinaka");
-        so.setBuilder("Prashant");
-        so.setCity("Mumbai");
-        so.setCont_number("8082314468");
-        so.setCountry("India");
-        so.setCreation_year("2018");
-        so.setFounder("Naruto");
-        so.setRegi_number("A-102145HLV012");
-        so.setStates("Maharashtra");
-        so.setType(op16);
-        so.setZip_Code("400072");
-        SocietyHibernate sh = new SocietyHibernate();
-        sh.insertSociety(so);
+//        Society so = new Society();
+//        so.setSociety_name("Hidden Leaf Village");
+//        so.setArea("Sakinaka");
+//        so.setBuilder("Prashant");
+//        so.setCity("Mumbai");
+//        so.setCont_number("8082314468");
+//        so.setCountry("India");
+//        so.setCreation_year("2018");
+//        so.setFounder("Naruto");
+//        so.setRegi_number("A-102145HLV012");
+//        so.setStates("Maharashtra");
+//        so.setType(op16);
+//        so.setZip_Code("400072");
+//        SocietyHibernate sh = new SocietyHibernate();
+//        sh.insertSociety(so);
 //        Room room = new Room();
 //        room.setRoom_name("A-002");
 //        room.setRoom_type(op1);
@@ -254,7 +254,6 @@ public class HouseStackController implements Initializable {
 //            query.setParameter("n", "Prashant Dhuri");
 //            List<Member> member = query.getResultList();
 //            System.out.println(member);
-
 //            session.save(v);
 //            ParkingAssign pa = new ParkingAssign();
 //            pa.setDescription("Own by Member");

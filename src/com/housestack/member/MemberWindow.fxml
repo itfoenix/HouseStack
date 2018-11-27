@@ -1,11 +1,231 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1">
-    
-</AnchorPane>
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@../resource/MyStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.housestack.member.MemberWindowController">
+   <children>
+      <VBox>
+         <children>
+            <HBox maxHeight="50.0" styleClass="headers" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Member Form" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Times New Roman" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox spacing="4.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" top="4.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_MemberName" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Member Name" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_ContactNumber" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Contact Number" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_AltNumber" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Alt. Number" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="txt_Email" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Email id" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" top="8.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="8.0" />
+                     </padding>
+                  </HBox>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextArea fx:id="txt_Address" labelFloat="true" prefColumnCount="15" promptText="Address" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextArea>
+                        <JFXComboBox fx:id="cb_Gender" labelFloat="true" maxWidth="320.0" prefWidth="200.0" promptText="Select Gender" HBox.hgrow="ALWAYS" />
+                        <JFXDatePicker fx:id="dp_Birthday" maxWidth="320.0" prefWidth="175.0" promptText="Date of Birth" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </JFXDatePicker>
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_Username" labelFloat="true" maxWidth="350.0" prefWidth="150.0" promptText="Username" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXPasswordField fx:id="txt_Password" labelFloat="true" maxWidth="350.0" prefWidth="150.0" promptText="Password" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXPasswordField>
+                        <JFXTextField fx:id="txt_Photo" labelFloat="true" maxWidth="235.0" prefWidth="150.0" promptText="Upload Photo" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="btn_PhotoButton" accessibleText="uploadPhoto" minWidth="68.0" onAction="#browse_action" onKeyPressed="#browse_key" styleClass="btn-save" text="Browse" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="-15.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXTextField fx:id="txt_OffNumber" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Office Number" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXComboBox fx:id="cb_owner" labelFloat="true" maxWidth="320.0" prefWidth="150.0" promptText="Owner Type" HBox.hgrow="ALWAYS" />
+                        <JFXComboBox fx:id="cb_IdType" labelFloat="true" maxWidth="320.0" prefWidth="186.0" promptText="Proof Type" HBox.hgrow="ALWAYS" />
+                        <JFXTextField fx:id="txt_Proof" labelFloat="true" maxWidth="235.0" prefWidth="150.0" promptText="Id Proof" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="btn_idProof" accessibleText="uploadDocs" minWidth="68.0" onAction="#browse_action" onKeyPressed="#browse_key" styleClass="btn-save" text="Browse" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="-16.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <Region maxWidth="50.0" minWidth="0.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXButton onAction="#selectRoom_action" onKeyPressed="#selectRoom_key" styleClass="btn-save" text="Select Room" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton onAction="#addVehicle_action" onKeyPressed="#addVehicle_key" styleClass="btn-save" text="Add Vehicle" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton onAction="#addFamily_action" onKeyPressed="#addFamily_key" styleClass="btn-save" text="Add Familly Members" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <Region maxWidth="750.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                        <JFXButton fx:id="btn_save" maxWidth="70.0" minWidth="70.0" onAction="#save_action" onKeyPressed="#save_key" ripplerFill="#2bc63b" style="-fx-background-color: #17A05D;" text="Save" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton maxWidth="70.0" minWidth="70.0" onAction="#cancel_action" onKeyPressed="#cancel_key" ripplerFill="#2bc63b" styleClass="btn-cancel" text="Cancel" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="24.0" right="24.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <HBox maxHeight="45.0" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_search" labelFloat="true" maxWidth="350.0" prefWidth="200.0" promptText="Search" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <padding>
+                        <Insets right="8.0" top="8.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="16.0" left="24.0" right="24.0" top="8.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="16.0" right="16.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <JFXTreeTableView fx:id="tblMember" minWidth="-Infinity" prefHeight="100.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="24.0" right="24.0" top="4.0" />
+                     </VBox.margin>
+                  </JFXTreeTableView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

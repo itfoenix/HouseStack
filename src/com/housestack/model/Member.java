@@ -5,15 +5,21 @@
  */
 package com.housestack.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GeneratorType;
 
 /**
  *
@@ -22,9 +28,11 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Table(name = "tblmember")
 @DynamicUpdate
-@PrimaryKeyJoinColumn(name = "person_id")
-public class Member extends Person {
+public class Member extends RecursiveTreeObject<Member> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private LocalDate birthday;
     private String photo;
     private String alt_number;
@@ -41,7 +49,17 @@ public class Member extends Person {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Room room_id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Person person_id;
     private boolean visibility;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public LocalDate getBirthday() {
         return birthday;
@@ -131,9 +149,17 @@ public class Member extends Person {
         this.visibility = visibility;
     }
 
+    public Person getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(Person person_id) {
+        this.person_id = person_id;
+    }
+
     @Override
     public String toString() {
-        return "Person{" + " id " + getId() + " name " + getName() + " Member{" + "birthday=" + birthday + ", photo=" + photo + ", alt_number=" + alt_number + ", off_number=" + off_number + ", email=" + email + ", id_Type=" + id_Type + ", member_Type=" + member_Type + ", username=" + username + ", password=" + password + ", room_id=" + room_id + ", visibility=" + visibility + " }" + '}';
+        return "Member{" + "id=" + id + ", birthday=" + birthday + ", photo=" + photo + ", alt_number=" + alt_number + ", off_number=" + off_number + ", email=" + email + ", id_Type=" + id_Type + ", member_Type=" + member_Type + ", username=" + username + ", password=" + password + ", room_id=" + room_id + ", person_id=" + person_id + ", visibility=" + visibility + '}';
     }
 
 }
