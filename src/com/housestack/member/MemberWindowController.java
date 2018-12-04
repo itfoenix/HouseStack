@@ -5,6 +5,8 @@
  */
 package com.housestack.member;
 
+import com.housestack.database.DocumentsHibernate;
+import com.housestack.database.FamilyMemberHibernate;
 import com.housestack.database.MemberHibernate;
 import com.housestack.database.OptionHibernate;
 import com.housestack.database.ParkingAssignHibernate;
@@ -12,6 +14,8 @@ import com.housestack.database.ParkingHibernate;
 import com.housestack.database.RoomHibernate;
 import com.housestack.database.SocietyHibernate;
 import com.housestack.model.Building;
+import com.housestack.model.Documents;
+import com.housestack.model.FamilyMember;
 import com.housestack.model.Member;
 import com.housestack.model.Option;
 import com.housestack.model.Parking;
@@ -24,6 +28,7 @@ import com.housestack.support.ActionButtonType;
 import com.housestack.support.ActionCell;
 import com.housestack.support.Dialog;
 import com.housestack.support.FileChoosers;
+import com.housestack.support.PhoenixSupport;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -158,16 +163,28 @@ public class MemberWindowController implements Initializable {
     private ParkingAssign glParkingAssign;
     private Member glMember;
     private ObservableList<ParkingAssign> parkingList;
-    private File file;
+    private File photoFile, proofFile;
     private ObservableList<Member> memberList;
+    private JFXTextField txt_flyIdProof;
+    private ObservableList<FamilyMember> familyList;
+    private ObservableList<Documents> documentList;
+    private FamilyMember glFamilyMember;
+    private JFXTreeTableView<FamilyMember> tblFamilyMember;
+    private Documents documents;
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         memberList = FXCollections.observableArrayList();
+        parkingList = FXCollections.observableArrayList();
+        familyList = FXCollections.observableArrayList();
+        documentList = FXCollections.observableArrayList();
         glParkingAssign = new ParkingAssign();
         glMember = new Member();
         roomList = FXCollections.observableArrayList();
@@ -175,6 +192,9 @@ public class MemberWindowController implements Initializable {
         cb_Gender.getItems().addAll(oh.getOptionOfType(3));
         cb_IdType.getItems().addAll(oh.getOptionOfType(4));
         cb_owner.getItems().addAll(oh.getOptionOfType(5));
+        PhoenixSupport.setRequiredField(txt_MemberName, txt_ContactNumber, txt_Email, txt_OffNumber, txt_Username, txt_Photo, txt_Proof);
+        PhoenixSupport.setRequiredField(txt_Password);
+        PhoenixSupport.setRequiredField(cb_Gender, cb_IdType, cb_owner);
         initTable();
         getAllMember();
         refreshTable();
@@ -195,9 +215,9 @@ public class MemberWindowController implements Initializable {
     @FXML
     private void browse_action(ActionEvent event) {
         if (((JFXButton) event.getSource()).getAccessibleText().equals("uploadPhoto")) {
-            browse(1);
+            photoFile = browse(1);
         } else {
-            browse(2);
+            proofFile = browse(2);
         }
     }
 
@@ -205,9 +225,9 @@ public class MemberWindowController implements Initializable {
     private void browse_key(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             if (((JFXButton) event.getSource()).getAccessibleText().equals("uploadPhoto")) {
-                browse(1);
+                photoFile = browse(1);
             } else {
-                browse(2);
+                proofFile = browse(2);
             }
         }
     }
@@ -269,6 +289,7 @@ public class MemberWindowController implements Initializable {
         cb_Building.setPromptText("Select Building");
         JFXComboBox<Room> cb_Room = new JFXComboBox<>();
         cb_Room.setPromptText("Select Room");
+        PhoenixSupport.setRequiredField(cb_Society, cb_Building, cb_Room);
         RoomHibernate rh = new RoomHibernate();
         roomList.addAll(rh.getAllRoom());
         for (Room r : roomList) {
@@ -337,6 +358,9 @@ public class MemberWindowController implements Initializable {
         JFXComboBox<Option> cb_ParkingSlotType = new JFXComboBox<>();
         cb_ParkingSlotType.setLabelFloat(true);
         cb_ParkingSlotType.setPromptText("Parking Slot");
+
+        PhoenixSupport.setRequiredField(txt_vehicleNumber);
+        PhoenixSupport.setRequiredField(cb_VehicleType, cb_ParkingSlot, cb_ParkingSlotType);
 
         JFXButton btnAddVehicle = new JFXButton("Add");
         btnAddVehicle.getStyleClass().add("btn-save");
@@ -413,6 +437,10 @@ public class MemberWindowController implements Initializable {
         });
     }
 
+    /**
+     * This is a main method which is used to add all informations in database.
+     *
+     */
     public void save() {
         Person p = new Person();
         p.setName(txt_MemberName.getText());
@@ -428,22 +456,44 @@ public class MemberWindowController implements Initializable {
         glMember.setPassword(txt_Password.getText());
         p.setPer_type("Member");
         glMember.setPerson_id(p);
-        File file2 = new File("src\\com\\housestack\\resource\\memberimages\\" + txt_MemberName.getText() + LocalDate.now() + "-" + LocalDateTime.now().getMinute() + "." + FilenameUtils.getExtension(file.getName()));
-        System.out.println(file2.getAbsolutePath());
-        try {
-            Files.copy(file.toPath(), file2.toPath());
+        if (txt_Photo.getText() != null) {
+            if (photoFile != null) {
+                File file2 = new File("src\\com\\housestack\\resource\\memberimages\\" + txt_MemberName.getText() + LocalDate.now() + "-" + LocalDateTime.now().getMinute() + "." + FilenameUtils.getExtension(photoFile.getName()));
+                try {
+                    Files.copy(photoFile.toPath(), file2.toPath());
 
-        } catch (IOException ex) {
-            Logger.getLogger(MemberWindowController.class
-                    .getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MemberWindowController.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+                glMember.setPhoto(file2.getAbsolutePath());
+            }
         }
-        glMember.setPhoto(file2.getAbsolutePath());
+
         glMember.setUsername(txt_Username.getText());
-        MemberHibernate mh = new MemberHibernate();
-        mh.insertMember(glMember);
-        for (ParkingAssign pa : parkingList) {
-            ParkingAssignHibernate pah = new ParkingAssignHibernate();
-            pah.insertParking(pa);
+
+        insertProof("Member", p);
+
+//        MemberHibernate mh = new MemberHibernate();
+//        mh.insertMember(glMember);
+        if (!parkingList.isEmpty()) {
+            for (ParkingAssign pa : parkingList) {
+                ParkingAssignHibernate pah = new ParkingAssignHibernate();
+                pah.insertParking(pa);
+            }
+        }
+        if (!familyList.isEmpty()) {
+            FamilyMemberHibernate fmh = new FamilyMemberHibernate();
+            for (FamilyMember fm : familyList) {
+                fm.setMember(glMember);
+                fmh.insertFamilyMember(fm);
+            }
+        }
+        if (!documentList.isEmpty()) {
+            DocumentsHibernate dh = new DocumentsHibernate();
+            for (Documents d : documentList) {
+                dh.insertDocuments(d);
+            }
         }
         if (btn_save.getText().equals("Update")) {
             Dialog.Success("Updation", "Successfully Updated all Information.", window);
@@ -456,22 +506,40 @@ public class MemberWindowController implements Initializable {
         clearField();
     }
 
+    /**
+     * This method is use to add ObservableList of Parking Vehicle in a table.
+     *
+     */
     public void refreshInnerTable() {
         TreeItem<ParkingAssign> treeItem = new RecursiveTreeItem<>(parkingList, RecursiveTreeObject::getChildren);
         tblVehicle.setRoot(treeItem);
         tblVehicle.setShowRoot(false);
     }
 
-    public void browse(int i) {
+    /**
+     * This method is used to open a Window's Explorer to select file or image.
+     * and set the name of that file to particular text field.
+     *
+     * @param i It is of type Integer. 1 = Member Photo, 2 = Member Id-Proof, 3
+     * = Residing Member Id-Proof
+     * @return It return the File.
+     */
+    public File browse(int i) {
         FileChoosers fc = new FileChoosers();
-        file = fc.openFileCooser(window);
+        File file = fc.openFileCooser(window);
         if (i == 1) {
             txt_Photo.setText(file.getName());
-        } else {
+        } else if (i == 2) {
             txt_Proof.setText(file.getName());
+        } else {
+            txt_flyIdProof.setText(file.getName());
         }
+        return file;
     }
 
+    /**
+     * This method is to to add Columns in Member table.
+     */
     public void initTable() {
         tcAction = new JFXTreeTableColumn<>();
         tcAction.setCellFactory(param -> new ActionCell(ActionButtonType.EDIT_BUTTON, ActionButtonType.VIEW_BUTTON, ActionButtonType.DELETE_BUTTON) {
@@ -511,18 +579,27 @@ public class MemberWindowController implements Initializable {
         tblMember.getColumns().addAll(tcAction, tcSr, tcMemberName, tcContactNumber, tcEmail, tcOwner, tcRoom, tcOffNumber);
     }
 
+    /**
+     * This method is used to get All the members created members.
+     */
     public void getAllMember() {
         memberList.clear();
         MemberHibernate mh = new MemberHibernate();
         memberList.addAll(mh.getAllMembers());
     }
 
+    /**
+     * This method is used to add ObeservableList of members in table
+     */
     public void refreshTable() {
         TreeItem<Member> treeItem = new RecursiveTreeItem<>(memberList, RecursiveTreeObject::getChildren);
         tblMember.setRoot(treeItem);
         tblMember.setShowRoot(false);
     }
 
+    /**
+     * This method is used to clearAllFields
+     */
     public void clearField() {
         txt_Address.clear();
         txt_AltNumber.clear();
@@ -539,9 +616,16 @@ public class MemberWindowController implements Initializable {
         cb_IdType.getSelectionModel().clearSelection();
         cb_owner.getSelectionModel().clearSelection();
         dp_Birthday.setValue(null);
+        familyList.clear();
+        refreshFlyTable();
     }
 
+    /**
+     * This Method is called when Add Family Member Button is clicked.. It gives
+     * the pop-up to add family Members.
+     */
     public void family() {
+        glFamilyMember = new FamilyMember();
         VBox vb = new VBox();
         vb.setSpacing(16);
         vb.setMinWidth(700);
@@ -551,30 +635,176 @@ public class MemberWindowController implements Initializable {
         hb2.setSpacing(8);
         JFXTextField txt_flyName = new JFXTextField();
         txt_flyName.setMinWidth(150);
+        txt_flyName.setPromptText("Name");
         JFXTextField txt_flyContact = new JFXTextField();
         txt_flyContact.setMinWidth(150);
+        txt_flyContact.setPromptText("Contact");
+
         JFXComboBox<Option> cb_flyGender = new JFXComboBox();
         cb_flyGender.setMinWidth(150);
+        OptionHibernate oh = new OptionHibernate();
+        cb_flyGender.getItems().addAll(oh.getOptionOfType(3));
+        cb_flyGender.setPromptText("Select Gender");
+
         JFXComboBox<Option> cb_flyRelation = new JFXComboBox();
         cb_flyRelation.setMinWidth(150);
+        cb_flyRelation.getItems().addAll(oh.getOptionOfType(10));
+        cb_flyRelation.getSelectionModel().selectLast();
+        cb_flyRelation.setPromptText("Select Relation");
+
         JFXComboBox<Option> cb_flyIdProof = new JFXComboBox();
         cb_flyIdProof.setMinWidth(150);
-        JFXTextField txt_flyIdProof = new JFXTextField();
+        cb_flyIdProof.getItems().addAll(oh.getOptionOfType(4));
+        cb_flyIdProof.setPromptText("Select Id-Proof");
+
+        txt_flyIdProof = new JFXTextField();
         txt_flyIdProof.setMinWidth(150);
+        txt_flyIdProof.setPromptText("Id Proof");
+        PhoenixSupport.setRequiredField(txt_flyName);
+        PhoenixSupport.setRequiredField(cb_flyRelation);
+
         JFXButton btn_flyBrowse = new JFXButton("Browse");
         btn_flyBrowse.getStyleClass().add("btn-save");
+        btn_flyBrowse.setOnAction(e -> {
+            proofFile = browse(3);
+        });
+        btn_flyBrowse.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                proofFile = browse(3);
+            }
+        });
+
+//        ADD to table
         JFXButton btn_flyAdd = new JFXButton("Add");
         btn_flyAdd.getStyleClass().add("btn-save");
+        btn_flyAdd.setOnAction(e -> {
+            addFlyInList(cb_flyIdProof, txt_flyName, txt_flyContact, cb_flyGender, cb_flyRelation, btn_flyAdd);
+        });
+        btn_flyAdd.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                addFlyInList(cb_flyIdProof, txt_flyName, txt_flyContact, cb_flyGender, cb_flyRelation, btn_flyAdd);
+            }
+        });
         hb1.getChildren().addAll(txt_flyName, txt_flyContact, cb_flyGender, cb_flyRelation);
         hb2.getChildren().addAll(cb_flyIdProof, txt_flyIdProof, btn_flyBrowse, btn_flyAdd);
-        vb.getChildren().addAll(hb1, hb2);
+
+        tblFamilyMember = new JFXTreeTableView();
+        JFXTreeTableColumn<FamilyMember, Integer> tcflyAction = new JFXTreeTableColumn<>();
+        tcflyAction.setCellFactory(param -> new ActionCell(ActionButtonType.EDIT_BUTTON, ActionButtonType.DELETE_BUTTON) {
+
+            @Override
+            public void deleteOperation() {
+                tblFamilyMember.getSelectionModel().select(getTreeTableRow().getIndex());
+                FamilyMember familyMember = tblFamilyMember.getSelectionModel().getSelectedItem().getValue();
+                familyList.remove(familyMember);
+                refreshFlyTable();
+            }
+
+            @Override
+            public void editOperation() {
+                tblFamilyMember.getSelectionModel().select(getTreeTableRow().getIndex());
+                glFamilyMember = tblFamilyMember.getSelectionModel().getSelectedItem().getValue();
+                txt_flyName.setText(glFamilyMember.getPerson().getName());
+                txt_flyContact.setText(glFamilyMember.getPerson().getCont_number());
+                cb_flyGender.getSelectionModel().select(glFamilyMember.getPerson().getGender());
+                cb_flyRelation.getSelectionModel().select(glFamilyMember.getRelationtoMember());
+                cb_flyIdProof.getSelectionModel().select(glFamilyMember.getIdProof());
+                btn_flyAdd.setText("Update");
+            }
+
+        });
+        JFXTreeTableColumn<FamilyMember, Integer> tcflySr = new JFXTreeTableColumn<>("Sr. No.");
+        tcflySr.setCellValueFactory(param -> new SimpleIntegerProperty(familyList.indexOf(param.getValue().getValue()) + 1).asObject());
+        JFXTreeTableColumn<FamilyMember, String> tcflyName = new JFXTreeTableColumn<>("Name");
+        tcflyName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPerson().getName()));
+        JFXTreeTableColumn<FamilyMember, String> tcflyContact = new JFXTreeTableColumn<>("Contact");
+        tcflyContact.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPerson().getCont_number()));
+        JFXTreeTableColumn<FamilyMember, Option> tcflyGender = new JFXTreeTableColumn<>("Gender");
+        tcflyGender.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getValue().getPerson().getGender()));
+        JFXTreeTableColumn<FamilyMember, Option> tcflyIdProof = new JFXTreeTableColumn<>("Id Proof");
+        tcflyIdProof.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getValue().getIdProof()));
+        JFXTreeTableColumn<FamilyMember, Option> tcflyRelation = new JFXTreeTableColumn<>("Relation");
+        tcflyRelation.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getValue().getRelationtoMember()));
+        tblFamilyMember.getColumns().addAll(tcflyAction, tcflySr, tcflyName, tcflyContact, tcflyGender, tcflyIdProof, tcflyRelation);
+
+        refreshFlyTable();
+
+        vb.getChildren().addAll(hb1, hb2, tblFamilyMember);
         JFXButton btn_flySave = new JFXButton("Save");
         btn_flySave.getStyleClass().add("btn-save");
         JFXButton btn_flyCancel = new JFXButton("Cancel");
         btn_flyCancel.getStyleClass().add("btn-cancel");
         dialog = Dialog.getDialog(window, new Label("Add Residing Member's"), vb, btn_flySave, btn_flyCancel);
         dialog.show();
-        btn_flyCancel.setOnAction(e -> dialog.close());
+        btn_flySave.setOnAction(e -> dialog.close());
+        btn_flySave.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                dialog.close();
+            }
+        });
+        btn_flyCancel.setOnAction(e -> {
+            dialog.close();
+            familyList.clear();
+            refreshFlyTable();
+        });
+        btn_flyCancel.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                dialog.close();
+                familyList.clear();
+                refreshFlyTable();
+            }
+        });
     }
 
+    public void addFlyInList(JFXComboBox<Option> cb_flyIdProof, JFXTextField txt_flyName, JFXTextField txt_flyContact, JFXComboBox<Option> cb_flyGender, JFXComboBox<Option> cb_flyRelation, JFXButton btn_flyAdd) {
+        FamilyMember familyMember = new FamilyMember();
+        familyMember.setIdProof(cb_flyIdProof.getSelectionModel().getSelectedItem());
+        Person person = new Person();
+        person.setName(txt_flyName.getText());
+        person.setCont_number(txt_flyContact.getText());
+        person.setGender(cb_flyGender.getSelectionModel().getSelectedItem());
+        person.setPer_type("Residing Member");
+        familyMember.setPerson(person);
+        familyMember.setRelationtoMember(cb_flyRelation.getSelectionModel().getSelectedItem());
+
+        insertProof("Residing Member", person);
+
+        if (btn_flyAdd.getText().equals("Add")) {
+            familyList.add(familyMember);
+        } else {
+            familyList.set(familyList.indexOf(glFamilyMember), familyMember);
+            btn_flyAdd.setText("Add");
+        }
+    }
+
+    /**
+     * This method is to add ObservableList of Residing Members in Table
+     *
+     */
+    public void refreshFlyTable() {
+        TreeItem<FamilyMember> treeItem = new RecursiveTreeItem<>(familyList, RecursiveTreeObject::getChildren);
+        tblFamilyMember.setRoot(treeItem);
+        tblFamilyMember.setShowRoot(false);
+    }
+
+    public void insertProof(String s, Person person) {
+        if (txt_Proof.getText() != null) {
+            documents = new Documents();
+            if (proofFile != null) {
+                File file2 = new File("src\\com\\housestack\\resource\\document\\" + PhoenixSupport.randomAlphaNumeric(16) + "." + FilenameUtils.getExtension(proofFile.getName()));
+                try {
+                    Files.copy(proofFile.toPath(), file2.toPath());
+                } catch (IOException ex) {
+                    Logger.getLogger(MemberWindowController.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+                documents.setLocation(file2.getAbsolutePath());
+                documents.setDescription("It is " + person.getName() + " Id Proof");
+                documents.setUpload_date(LocalDate.now());
+                documents.setOwner_type(s);
+                documents.setPerson(person);
+            }
+            documentList.add(documents);
+        }
+    }
 }

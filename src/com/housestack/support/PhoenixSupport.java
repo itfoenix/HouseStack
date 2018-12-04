@@ -26,7 +26,7 @@ public class PhoenixSupport {
     public static void setRequiredField(JFXTextField... t) {
         for (JFXTextField s : t) {
             RequiredFieldValidator rf = new RequiredFieldValidator();
-            rf.setMessage(s.getPromptText() + " is requeired");
+            rf.setMessage(s.getPromptText() + "is requeired");
             s.setValidators(rf);
         }
     }
@@ -34,7 +34,7 @@ public class PhoenixSupport {
     public static void setRequiredField(JFXPasswordField... t) {
         for (JFXPasswordField s : t) {
             RequiredFieldValidator rf = new RequiredFieldValidator();
-            rf.setMessage(s.getPromptText() + " is requeired");
+            rf.setMessage(s.getPromptText() + "is requeired");
             s.setValidators(rf);
         }
     }
@@ -42,7 +42,7 @@ public class PhoenixSupport {
     public static void setRequiredField(JFXComboBox... t) {
         for (JFXComboBox s : t) {
             RequiredFieldValidator rf = new RequiredFieldValidator();
-            rf.setMessage(s.getPromptText() + " is requeired");
+            rf.setMessage(s.getPromptText() + "is requeired");
             s.setValidators(rf);
         }
     }
@@ -54,7 +54,9 @@ public class PhoenixSupport {
             s.setValidators(rf);
             s.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
-                    s.validate();
+                    if (!s.validate()) {
+                        s.clear();
+                    }
                 }
             });
         }
@@ -67,7 +69,9 @@ public class PhoenixSupport {
             s.setValidators(rf);
             s.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
-                    s.validate();
+                    if (!s.validate()) {
+                        s.clear();
+                    }
                 }
             });
         }
@@ -76,11 +80,24 @@ public class PhoenixSupport {
     public static boolean isValidate(JFXTextField... n) {
         boolean result = false;
         for (JFXTextField t : n) {
-            if (!t.getText().isEmpty()) {
-                result = true;
+            if (t.getText() != null) {
+                if (!t.getText().isEmpty()) {
+                    if (t.validate()) {
+                        result = true;
+                    } else {
+                        System.out.println("not null  and is not empty but invalid" + t.validate());
+                        result = false;
+                        break;
+                    }
+                } else {
+                    System.out.println("not null and is empty" + t.validate());
+                    result = false;
+                    break;
+                }
             } else {
-                t.validate();
+                System.out.println("null" + t.validate());
                 result = false;
+                break;
             }
         }
         return result;
@@ -89,25 +106,33 @@ public class PhoenixSupport {
     public static boolean isValidate(JFXPasswordField... n) {
         boolean result = false;
         for (JFXPasswordField t : n) {
-            if (!t.getText().isEmpty()) {
-                result = true;
+            if (t.getText() != null) {
+                if (!t.getText().isEmpty()) {
+                    result = true;
+                } else {
+                    t.validate();
+                    result = false;
+                    break;
+                }
             } else {
                 t.validate();
                 result = false;
+                break;
             }
         }
         return result;
     }
 
     public static boolean isValidate(JFXComboBox... c) {
-
+        boolean result = true;
         for (JFXComboBox cb : c) {
             if (cb.getSelectionModel().isEmpty()) {
                 cb.validate();
-                return false;
+                result = false;
+                break;
             }
         }
-        return true;
+        return result;
     }
 
     public static void setFullScreen(StackPane window) {
@@ -175,4 +200,26 @@ public class PhoenixSupport {
         jfxDialog.show();
     }
 
+    public static String getData(String data) {
+        if (data != null) {
+            if (data.isEmpty()) {
+                return "NA";
+            } else {
+                return data;
+            }
+        } else {
+            return "NA";
+        }
+    }
+
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
 }

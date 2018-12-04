@@ -38,10 +38,10 @@ public class Member extends RecursiveTreeObject<Member> {
     private String alt_number;
     private String off_number;
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Option.class, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_type")
     private Option id_Type;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Option.class, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "member_type")
     private Option member_Type;
     private String username;

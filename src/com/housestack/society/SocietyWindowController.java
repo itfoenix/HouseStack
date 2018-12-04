@@ -140,6 +140,7 @@ public class SocietyWindowController implements Initializable {
     }
 
     public void getOptions() {
+        optionList.clear();
         OptionHibernate optionHibernate = new OptionHibernate();
         optionList.addAll(optionHibernate.getOptionOfType(9));
         cb_SocietyType.setItems(optionList);
@@ -195,6 +196,7 @@ public class SocietyWindowController implements Initializable {
                         societyHibernate.deleteSociety(society);
                         societyList.remove(society);
                         refreshTable();
+                        dialog.close();
                     });
                     dialog.show();
                 }
@@ -246,26 +248,25 @@ public class SocietyWindowController implements Initializable {
 
     public void save() {
         if (PhoenixSupport.isValidate(txt_SocietyName, txt_ContactNumber, txt_Area, txt_RegistrationNumber) && PhoenixSupport.isValidate(cb_SocietyType)) {
-            glSociety.setSociety_name(txt_SocietyName.getText());
-            glSociety.setCont_number(txt_ContactNumber.getText());
-            glSociety.setArea(txt_Area.getText());
-            glSociety.setCity(txt_City.getText());
-            glSociety.setStates(txt_State.getText());
-            glSociety.setBuilder(txt_Builder.getText());
-            glSociety.setCountry(txt_Country.getText());
-            glSociety.setCreation_year(txt_Year.getText());
-            glSociety.setFounder(txt_Founder.getText());
-            glSociety.setRegi_number(txt_RegistrationNumber.getText());
-            glSociety.setType(cb_SocietyType.getSelectionModel().getSelectedItem());
-            glSociety.setZip_Code(txt_ZipCode.getText());
+            Society society = new Society();
+            society.setSociety_name(txt_SocietyName.getText());
+            society.setCont_number(txt_ContactNumber.getText());
+            society.setArea(txt_Area.getText());
+            society.setCity(txt_City.getText());
+            society.setStates(txt_State.getText());
+            society.setBuilder(txt_Builder.getText());
+            society.setCountry(txt_Country.getText());
+            society.setCreation_year(txt_Year.getText());
+            society.setFounder(txt_Founder.getText());
+            society.setRegi_number(txt_RegistrationNumber.getText());
+            society.setType(cb_SocietyType.getSelectionModel().getSelectedItem());
+            society.setZip_Code(txt_ZipCode.getText());
             SocietyHibernate societyHibernate = new SocietyHibernate();
-//            if (btn_save.getText().equals("Save")) {
-            societyHibernate.insertSociety(glSociety);
-//                societyList.add(glSociety);
-//            }
             if (btn_save.getText().equals("Update")) {
-//                glSociety.setSociety_id(id);
-//                societyHibernate.updateSociety(glSociety);
+                society.setSociety_id(glSociety.getSociety_id());
+            }
+            societyHibernate.insertSociety(society);
+            if (btn_save.getText().equals("Update")) {
                 Dialog.Success("Updation", "All Informations are Successfully updated.", window);
                 btn_save.setText("Save");
             } else {
@@ -317,14 +318,16 @@ public class SocietyWindowController implements Initializable {
     }
 
     public void saveOption() {
-        Option option = new Option();
-        option.setName(txtName.getText());
-        option.setType(9);
-        option.setDate(LocalDate.now());
-        OptionHibernate optionHibernate = new OptionHibernate();
-        optionHibernate.insertOption(option);
-        getOptions();
-        dialog.close();
+        if (!txtName.getText().isEmpty()) {
+            Option option = new Option();
+            option.setName(txtName.getText());
+            option.setType(9);
+            option.setDate(LocalDate.now());
+            OptionHibernate optionHibernate = new OptionHibernate();
+            optionHibernate.insertOption(option);
+            getOptions();
+            dialog.close();
+        }
     }
 
     public void closeOption() {
@@ -344,5 +347,9 @@ public class SocietyWindowController implements Initializable {
         txt_Year.clear();
         txt_ZipCode.clear();
         cb_SocietyType.getSelectionModel().clearSelection();
+        txt_SocietyName.resetValidation();
+        txt_Area.resetValidation();
+        txt_RegistrationNumber.resetValidation();
+        cb_SocietyType.resetValidation();
     }
 }

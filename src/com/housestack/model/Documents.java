@@ -5,15 +5,13 @@
  */
 package com.housestack.model;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,21 +20,20 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author choudhary
  */
 @Entity
-@Table(name = "tblfamily")
+@Table(name = "tbldocument")
 @DynamicUpdate
-public class FamilyMember extends RecursiveTreeObject<FamilyMember> implements Serializable {
+public class Documents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String location;
+    private String Description;
+    private LocalDate upload_date;
+    private String owner_type;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Option relationtoMember;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Option idProof;
-    @OneToOne(cascade = CascadeType.ALL)
     private Person person;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Member member;
+    private boolean visibility;
 
     public int getId() {
         return id;
@@ -46,20 +43,36 @@ public class FamilyMember extends RecursiveTreeObject<FamilyMember> implements S
         this.id = id;
     }
 
-    public Option getRelationtoMember() {
-        return relationtoMember;
+    public String getLocation() {
+        return location;
     }
 
-    public void setRelationtoMember(Option relationtoMember) {
-        this.relationtoMember = relationtoMember;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public Option getIdProof() {
-        return idProof;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setIdProof(Option idProof) {
-        this.idProof = idProof;
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    public LocalDate getUpload_date() {
+        return upload_date;
+    }
+
+    public void setUpload_date(LocalDate upload_date) {
+        this.upload_date = upload_date;
+    }
+
+    public String getOwner_type() {
+        return owner_type;
+    }
+
+    public void setOwner_type(String owner_type) {
+        this.owner_type = owner_type;
     }
 
     public Person getPerson() {
@@ -70,12 +83,12 @@ public class FamilyMember extends RecursiveTreeObject<FamilyMember> implements S
         this.person = person;
     }
 
-    public Member getMember() {
-        return member;
+    public boolean isVisibility() {
+        return visibility;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
     }
 
 }

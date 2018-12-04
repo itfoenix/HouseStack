@@ -37,7 +37,7 @@ public class MemberHibernate {
     public void insertMember(Member member) {
         try (Session session = HibernateUnit.createSession()) {
             session.beginTransaction();
-            session.persist(member);
+            session.saveOrUpdate(member);
             session.getTransaction().commit();
         }
     }

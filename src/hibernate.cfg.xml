@@ -21,5 +21,6 @@
     <mapping class="com.housestack.model.ParkingAssign" package="com.housestack.model"/>
     <mapping class="com.housestack.model.Committee" package="com.housestack.model"/>
     <mapping class="com.housestack.model.FamilyMember" package="com.housestack.model"/>
+    <mapping class="com.housestack.model.Documents" package="com.housestack.model"/>
   </session-factory>
 </hibernate-configuration>

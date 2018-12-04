@@ -23,11 +23,15 @@ public class MobileNumberValidator extends ValidatorBase {
 
     private void evalTextInputField() {
         TextInputControl textfield = (TextInputControl) srcControl.get();
-        if (textfield.getText().isEmpty() || textfield.getText() == null) {
-            hasErrors.set(false);
-        }
-        if (!textfield.getText().matches("[0|91]?[7-9][0-9]{9}")) {
-            hasErrors.set(true);
+        if (textfield.getText() != null) {
+            if (textfield.getText().isEmpty()) {
+                hasErrors.set(false);
+            }
+            if (!textfield.getText().matches("[0|91]?[7-9][0-9]{9}")) {
+                hasErrors.set(true);
+            } else {
+                hasErrors.set(false);
+            }
         } else {
             hasErrors.set(false);
         }

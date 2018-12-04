@@ -29,7 +29,7 @@ public class Person {
     public int id;
     private String name;
     private String address;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Option.class, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "gender")
     private Option gender;
     private String cont_number;

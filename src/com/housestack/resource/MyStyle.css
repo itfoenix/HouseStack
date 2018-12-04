@@ -18,3 +18,6 @@
 .btn-cancel {
     -fx-background-color: #DDE6E3;
 }
+.insets {
+    -fx-border-insets: 5px;
+}

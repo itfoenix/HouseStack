@@ -102,7 +102,7 @@ public class BuildingWindowController implements Initializable {
         // TODO
         buildingList = FXCollections.observableArrayList();
         glBuilding = new Building();
-        PhoenixSupport.setRequiredField(txt_BuildingName, txt_Floors, txt_BuildingNumber);
+        PhoenixSupport.setRequiredField(txt_BuildingName, txt_Floors, txt_Rooms);
         PhoenixSupport.setRequiredField(cb_Society);
         SocietyHibernate sh = new SocietyHibernate();
         cb_Society.getItems().addAll(sh.getAllSociety());
@@ -193,13 +193,14 @@ public class BuildingWindowController implements Initializable {
      */
     private void save() {
         if (PhoenixSupport.isValidate(txt_BuildingName, txt_Floors, txt_Rooms) && PhoenixSupport.isValidate(cb_Society)) {
-            glBuilding.setBuilding_name(txt_BuildingName.getText());
-            glBuilding.setBuilding_num(txt_BuildingNumber.getText());
-            glBuilding.setFloors(Integer.parseInt(txt_Floors.getText()));
-            glBuilding.setRooms(Integer.parseInt(txt_Rooms.getText()));
-            glBuilding.setSociety_id(cb_Society.getSelectionModel().getSelectedItem());
+            Building building = new Building();
+            building.setBuilding_name(txt_BuildingName.getText());
+            building.setBuilding_num(txt_BuildingNumber.getText());
+            building.setFloors(Integer.parseInt(txt_Floors.getText()));
+            building.setRooms(Integer.parseInt(txt_Rooms.getText()));
+            building.setSociety_id(cb_Society.getSelectionModel().getSelectedItem());
             BuildingHibernate bh = new BuildingHibernate();
-            bh.insertBuilding(glBuilding);
+            bh.insertBuilding(building);
             if (btn_save.getText().equals("Update")) {
                 Dialog.Success("Updation", "Successfully Updated all Information.", window);
                 btn_save.setText("Save");
